@@ -1,71 +1,73 @@
-# Proyecto final de Base de Datos
-Sistema para crear eventos, vender tickets y gestionar asistentes usando
-Node.js (Javascript) con Mongoose.
-Como interfaz se usa la consola.
+# Sistema de Gestión de Eventos, Tickets y Asistentes
 
-## Requerimmientos
+Este proyecto es una aplicación de consola desarrollada en **Node.js** (Javascript) que permite crear y administrar eventos, vender tickets y gestionar asistentes. Utiliza **MongoDB** como base de datos, con **Mongoose** como ORM, y emplea **Inquirer** para la interacción por consola.
 
-- Node.js.
-- Moongoose.
-- Inquirer (para visualizacion por consola).
+## Funcionalidades Principales
 
-# Estructura del Proyecto
+- **Creación de eventos:** Permite registrar eventos con nombre, descripción, fecha, ubicación, capacidad máxima y tipos de ticket.
+- **Gestión de tickets:** Define múltiples tipos de ticket por evento, con precios y cantidades disponibles. Permite la venta y registro de tickets.
+- **Gestión de asistentes:** Registra los datos de los compradores y asocia cada ticket vendido a un asistente.
+- **Validación de tickets:** Permite marcar tickets como usados y registrar la fecha de uso.
+- **Visualización y administración:** Consulta eventos, tickets vendidos, asistentes y estado de cada ticket desde la consola.
 
-```
-root/
-│
-├── models/
-│   ├── Evento.js
-│   └── Ticket.js
-│
-├── controllers/
-│   ├── eventoController.js
-│   └── ticketController.js
-│
-├── db/
-│   └── connection.js
-│
-├── main.js 
-│
-|── seeds.js
-|
-├── package.json
-└── .env
+## Tecnologías Utilizadas
+
+- **Node.js:** Motor principal de la aplicación.
+- **MongoDB:** Base de datos NoSQL para almacenar eventos y tickets.
+- **Mongoose:** ORM para modelar y consultar datos en MongoDB.
+- **Inquirer:** Librería para crear menús y formularios interactivos en la consola.
+
+## Estructura del Proyecto
 
 ```
-
-**Nota:** main.js  (punto de entrada por consola)
-
-## .env
-
-Configurar el .env.template a .env y usar las variales de entorno ue crea necesarias.
-
-por ejemplo:
+root/ 
+│ 
+├── models/ 
+│ ├── Evento.js # Modelo de eventos 
+│ └── Ticket.js # Modelo de tickets 
+│ 
+├── controllers/ 
+│ ├── eventoController.js # Lógica de eventos 
+│ └── ticketController.js # Lógica de tickets 
+│ 
+├── db/ 
+│ └── connection.js # Conexión a MongoDB 
+│ 
+├── main.js # Punto de entrada por consola 
+│ 
+├── seeds.js # Datos de prueba iniciales 
+│ 
+├── package.json 
+└── .env # Variables de entorno
 ```
-MONGO_URI=mongodb://localhost:27017/eventosDB
-```
 
+## Configuración Inicial
 
+1. **Variables de entorno:**  
+   Renombrar `.env.template` a `.env` y configurar la URI de MongoDB:
+   MONGO_URI=mongodb://localhost:27017/eventosDB
 
-# Inicializar el proyecto
-
-Dirigirse a la carpeta raiz e instalar los modulos.
-
+2. **Instalación de dependencias:**  
+Desde la carpeta raíz, ejecutar:
 ```bash
-cd root
 npm install
 ```
 
-Luego, ejecutar la aplicacion.
+3. Carga de datos de prueba (opcional):
 
-```bash
+Para poblar la base de datos con ejemplos:
+```
 npm run seed
+```
+
+4. Ejecutar la aplicación:
+Iniciar el sistema desde la consola:
+```
 npm start
 ```
 
-El arhcivo **seeds.js** contiene datos de prueba para comenzar, puede no ejecutarse y comenzar con la Base de Datos limpia.
 
-## Ejemplos de datos para probar manualmente
+## Ejemplos de Uso
 
 ### Ejemplo 1: Evento académico
 >**Nombre del evento:** Seminario de Inteligencia Artificial
@@ -105,15 +107,13 @@ El arhcivo **seeds.js** contiene datos de prueba para comenzar, puede no ejecuta
 
 # Base de datos
 
-Requerimientos MongoDb
 La confiuracion y conexion a la BBDD se encuentra en **db/connection.js**
 
-Puede usarse MongoDb Compass u otra herramienta de visualizacion de datos.
+Se recomienda usar MongoDB Compass u otra herramienta para inspeccionar los datos almacenados.
 
 ## Estructura de datos
-
-```json
-// Colección: eventos
+Colección: eventos
+```
 {
   _id: ObjectId,
   nombre: "Conferencia Tech 2024",
@@ -137,8 +137,9 @@ Puede usarse MongoDb Compass u otra herramienta de visualizacion de datos.
   ],
   estado: "activo"
 }
-
-// Colección: tickets
+```
+Colección: tickets
+```
 {
   _id: ObjectId,
   eventoId: ObjectId,
@@ -158,3 +159,4 @@ Puede usarse MongoDb Compass u otra herramienta de visualizacion de datos.
 # AUTORES
 
 Dario Coletto
+
