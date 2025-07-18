@@ -36,17 +36,27 @@ root/
 
 **Nota:** main.js  (punto de entrada por consola)
 
+## .env
+
+Configurar el .env.template a .env y usar las variales de entorno ue crea necesarias.
+
+por ejemplo:
+```
+MONGO_URI=mongodb://localhost:27017/eventosDB
+```
+
 
 
 # Inicializar el proyecto
 
-**root** es la carpeta raiz. 
+Dirigirse a la carpeta raiz e instalar los modulos.
+
 ```bash
 cd root
 npm install
 ```
 
-Luego
+Luego, ejecutar la aplicacion.
 
 ```bash
 npm run seed
@@ -93,3 +103,58 @@ El arhcivo **seeds.js** contiene datos de prueba para comenzar, puede no ejecuta
 
 
 
+# Base de datos
+
+Requerimientos MongoDb
+La confiuracion y conexion a la BBDD se encuentra en **db/connection.js**
+
+Puede usarse MongoDb Compass u otra herramienta de visualizacion de datos.
+
+## Estructura de datos
+
+```json
+// Colección: eventos
+{
+  _id: ObjectId,
+  nombre: "Conferencia Tech 2024",
+  descripcion: "Conferencia de tecnología",
+  fecha: ISODate,
+  ubicacion: "Centro de Convenciones",
+  capacidadMaxima: 500,
+  tiposTicket: [
+    {
+      nombre: "General",
+      precio: 50.00,
+      cantidad: 400,
+      vendidos: 234
+    },
+    {
+      nombre: "VIP",
+      precio: 100.00,
+      cantidad: 100,
+      vendidos: 67
+    }
+  ],
+  estado: "activo"
+}
+
+// Colección: tickets
+{
+  _id: ObjectId,
+  eventoId: ObjectId,
+  comprador: {
+    nombre: "Carlos Ruiz",
+    email: "carlos@email.com"
+  },
+  tipoTicket: "General",
+  precio: 50.00,
+  fechaCompra: ISODate,
+  codigoQR: "ABC123XYZ",
+  usado: false,
+  fechaUso: null
+}
+```
+
+# AUTORES
+
+Dario Coletto
