@@ -14,7 +14,7 @@ async function eventosProximos() {
   try {
     const hoy = new Date();
     const eventos = await Evento.find({estado: "activo" });
-    console.log("📅 Eventos próximos:");
+    console.log("📅 Eventos activos:");
     eventos.forEach((ev) => {
       console.log(`- ${ev.nombre} (${ev.fecha.toDateString()})`);
     });

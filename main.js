@@ -16,7 +16,7 @@ async function menuPrincipal() {
   ];
 
   const { opcion } = await inquirer.prompt({
-    type: "list",
+    type: "rawlist",
     name: "opcion",
     message: "Selecciona una opción:",
     choices: opciones,
@@ -51,13 +51,35 @@ async function menuPrincipal() {
 
 async function menuCrearEvento() {
   const evento = await inquirer.prompt([
-    { name: "nombre", message: "Nombre del evento:" },
+    { 
+      name: "nombre", 
+      message: "Nombre del evento (deja vacío para cancelar):", 
+      validate: (input) => {
+        if (input.trim() === "") return true; 
+        return true;
+      }
+    }, 
     { name: "descripcion", message: "Descripción:" },
-    { name: "fecha", message: "Fecha (YYYY-MM-DD):" },
+    { 
+      name: "fecha", 
+      message: "Fecha (YYYY-MM-DD):", 
+      validate: (input) => {
+        if (input.trim() === "") return true; 
+        const date = new Date(input);
+        return !isNaN(date.getTime()) ? true : "Fecha inválida. Usa el formato YYYY-MM-DD.";
+      }
+    },
     { name: "ubicacion", message: "Ubicación:" },
     { name: "capacidadMaxima", message: "Capacidad máxima:", type: "number" },
   ]);
 
+  // Cancelar si el usuario deja el nombre vacío
+  if (!evento.nombre || evento.nombre.trim() === "") {
+    console.log("🚫 Creación de evento cancelada.");
+    return;
+  }else{
+
+  }
   const tiposTicket = [];
 
   let agregar = true;
@@ -81,13 +103,14 @@ async function menuCrearEvento() {
   evento.tiposTicket = tiposTicket;
 
   await crearEvento(evento);
+
 }
 
 // ─────────────────────────────────────────────
 
 async function menuComprarTicket() {
   try {
-    const eventos = await Evento.find({ fecha: { $gte: new Date() }, estado: "activo" });
+    const eventos = await Evento.find({estado: "activo" });
 
     if (eventos.length === 0) {
       console.log("❌ No hay eventos disponibles para comprar tickets.");
@@ -141,9 +164,33 @@ async function menuValidarTicket() {
 // ─────────────────────────────────────────────
 
 async function menuReporteVentas() {
-  const { eventoId } = await inquirer.prompt([
-    { name: "eventoId", message: "ID del evento:" },
-  ]);
+
+  //Buscar eventos activos y los ordena por fecha
+  const eventos = await Evento.find({ estado: "activo" }).sort({ fecha: 1 });
+
+  if (eventos.length === 0) {
+    console.log("🚫 No hay eventos disponibles.");
+    return;
+  }
+
+  const choices = eventos.map((evento, index) => ({
+    name: `${evento.nombre} - ${evento.fecha.toLocaleDateString()}`,
+    value: evento._id.toString(),
+  }));
+
+  choices.push(new inquirer.Separator(), { name: "❌ Cancelar", value: "cancelar" });
+
+  const { eventoId } = await inquirer.prompt({
+    type: "list",
+    name: "eventoId",
+    message: "Selecciona un evento para ver el reporte de ventas:",
+    choices,
+  });
+
+  if (eventoId === "cancelar") {
+    console.log("🔙 Volviendo al menú principal...");
+    return;
+  }
 
   await reporteVentas(eventoId);
 }
