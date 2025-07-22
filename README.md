@@ -33,6 +33,8 @@ root/
 ├── db/ 
 │ └── connection.js # Conexión a MongoDB 
 │ 
+├── views/ #Vistas de Menus en consola
+│ 
 ├── main.js # Punto de entrada por consola 
 │ 
 ├── seeds.js # Datos de prueba iniciales 
@@ -74,7 +76,7 @@ npm start
 >
 >**Descripción:** Charlas y talleres sobre IA, Machine Learning y ética tecnológica.
 >
->**Fecha:** 2024-09-25
+>**Fecha:** 2025-09-25
 >
 >**Ubicación:** Universidad Tecnológica Nacional - Aula Magna
 >
@@ -91,7 +93,7 @@ npm start
 >
 >**Descripción:** Concierto en vivo de artistas de jazz locales e >internacionales.
 >
->**Fecha:** 2024-10-15
+>**Fecha:** 2025-10-15
 >
 >**Ubicación:** Teatro Colón, Buenos Aires
 >
